@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { useBasePath } from './hooks';
 import DFSPs from './DFSPs';
 import FinancialPositions from './FinancialPositions';
@@ -12,11 +12,8 @@ function App() {
       {/* @ts-ignore */}
       <DFSPs>
         <Switch>
-          <Route path={`${basePath}/positions`}>
+          <Route path={`${basePath}`}>
             <FinancialPositions />
-          </Route>
-          <Route exact path={`${basePath}/`}>
-            <Redirect to={`${basePath}/positions`} />
           </Route>
         </Switch>
       </DFSPs>
