@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const DotenvPlugin = require('dotenv-webpack');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 require('dotenv').config({
   path: './.env',
@@ -19,6 +20,20 @@ const config = {
 const { ModuleFederationPlugin } = webpack.container;
 
 module.exports = {
+  // Class names are needed for integration testing of the production build
+  // `testcafe-react-selector` needs these classnames to be present
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          keep_classnames: true,
+          keep_fnames: true,
+          sourceMap: true,
+        },
+      }),
+    ],
+  },
   entry: './src/index',
   devtool: 'cheap-module-source-map',
   devServer: {
@@ -48,17 +63,10 @@ module.exports = {
     host: '0.0.0.0',
     publicPath: '/',
     proxy: {
-      '/central-settlements': {
-        // For local testing update `target` to point to your
-        // locally hosted or port-forwarded `central-settlements` service
-        target: 'http://localhost:38245',
-        pathRewrite: { '^/central-settlements': '/v2' },
-        secure: false,
-      },
       '/central-ledger': {
         // For local testing update `target` to point to your
         // locally hosted or port-forwarded `central-ledger` service
-        target: 'http://localhost:44501',
+        target: 'http://localhost:port',
         pathRewrite: { '^/central-ledger': '' },
         secure: false,
       },

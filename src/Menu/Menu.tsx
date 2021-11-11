@@ -17,7 +17,7 @@ interface MenuItemsProps {
 function MenuItems({ path }: MenuItemsProps) {
   return (
     <>
-      <Menu.Item path={`${path}`} label="Financial Positions" />
+      <Menu.Item path={`${path}`} label="DFSP Financial Positions" />
     </>
   );
 }

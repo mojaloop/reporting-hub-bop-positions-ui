@@ -54,14 +54,14 @@ const netdebitcap: EndpointConfig = {
 const fundsOut: EndpointConfig = {
   service: services.ledgerService,
   url: (_: State, { dfspName, accountId }: { dfspName: string; accountId: string }) =>
-    `participants/${dfspName}/accounts/${accountId}`,
+    `/participants/${dfspName}/accounts/${accountId}`,
   withCredentials: true,
 };
 
 const fundsIn: EndpointConfig = {
   service: services.ledgerService,
   url: (_: State, { dfspName, accountId }: { dfspName: string; accountId: string }) =>
-    `participants/${dfspName}/accounts/${accountId}`,
+    `/participants/${dfspName}/accounts/${accountId}`,
   withCredentials: true,
 };
 

@@ -1,4 +1,4 @@
-## Settlements Microfrontend Setup
+## DFSP Financial Positions Microfrontend Setup
 
 This microfrontend setup is configured to have this project acting as the remote.
 

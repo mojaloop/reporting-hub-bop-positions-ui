@@ -33,22 +33,26 @@ import {
 
 function* fetchDFSPPositions(dfsp: DFSP) {
   // @ts-ignore
-  const accounts = yield call(api.participantAccounts.read, { participantName: dfsp.name });
+  const accounts = yield call(api.participantAccounts.read, {
+    participantName: dfsp.name,
+  });
+
   assert.equal(accounts.status, 200, `Failed to retrieve accounts for ${dfsp.name}`);
   // @ts-ignore
   const limits = yield call(api.participantLimits.read, { participantName: dfsp.name });
   assert.equal(limits.status, 200, `Failed to retrieve limits for ${dfsp.name}`);
 
-  const currencies = new Set<Currency>(accounts.data.map((a: Account) => a.currency));
+  const activeAccounts = accounts.data.filter((a: any) => a.isActive === 1);
+  const currencies = new Set<Currency>(activeAccounts.map((a: Account) => a.currency));
 
   return [...currencies].map((c) => ({
     dfsp,
     currency: c,
     ndc: limits.data.find((l: Limit) => l.currency === c)?.limit.value,
-    settlementAccount: accounts.data.find(
+    settlementAccount: activeAccounts.find(
       (a: Account) => a.currency === c && a.ledgerAccountType === 'SETTLEMENT',
     ),
-    positionAccount: accounts.data.find(
+    positionAccount: activeAccounts.find(
       (a: Account) => a.currency === c && a.ledgerAccountType === 'POSITION',
     ),
   }));
