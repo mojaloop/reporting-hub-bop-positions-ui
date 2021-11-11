@@ -260,6 +260,6 @@ test(
       dismissConfirmationModal: false,
       runAssertion: false,
     });
-    await t.expect(FinancialPositionsPage.balanceInsufficientError).ok();
+    await t.expect(FinancialPositionsPage.balanceInsufficientError.exists).ok();
   },
 );

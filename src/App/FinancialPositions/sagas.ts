@@ -1,8 +1,10 @@
 import { strict as assert } from 'assert';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, put, select, takeLatest, takeEvery } from 'redux-saga/effects';
-import api from 'utils/api';
+import api, { centralLedgerURL } from 'utils/api';
 import { v4 as uuid } from 'uuid';
+import retry from 'async-retry';
+import axios from 'axios';
 import { getDfsps } from '../DFSPs/selectors';
 import { DFSP } from '../DFSPs/types';
 import { Currency } from '../types';
@@ -31,6 +33,37 @@ import {
   getSelectedFinancialPositionUpdateAction,
 } from './selectors';
 
+// Adding and withdrawing funds in the central ledger are not truly synchronous.
+// So we poll the account endpoint a bit until there is a change before reloading
+// the UI.
+async function pollAccountFundsUpdate(oldAccountFunds: string, dfspName: string) {
+  return retry(
+    async (bail) => {
+      const accounts = await axios.get(`${centralLedgerURL}/participants/${dfspName}/accounts`);
+      if (accounts.status !== 200) {
+        bail(new Error('Unable to fetch DFSP data'));
+        return;
+      }
+
+      const account = accounts.data.filter(
+        (acc: { ledgerAccountType: string }) => acc.ledgerAccountType === 'SETTLEMENT',
+      )[0];
+
+      if (account.value !== oldAccountFunds) {
+        // eslint-disable-next-line consistent-return
+        return true;
+      }
+    },
+    {
+      retries: 5,
+    },
+  );
+}
+
+function* checkAccountFundUpdate(oldAccountFunds: string, dfspName: string) {
+  yield call(pollAccountFundsUpdate, oldAccountFunds, dfspName);
+}
+
 function* fetchDFSPPositions(dfsp: DFSP) {
   // @ts-ignore
   const accounts = yield call(api.participantAccounts.read, {
@@ -42,17 +75,16 @@ function* fetchDFSPPositions(dfsp: DFSP) {
   const limits = yield call(api.participantLimits.read, { participantName: dfsp.name });
   assert.equal(limits.status, 200, `Failed to retrieve limits for ${dfsp.name}`);
 
-  const activeAccounts = accounts.data.filter((a: any) => a.isActive === 1);
-  const currencies = new Set<Currency>(activeAccounts.map((a: Account) => a.currency));
+  const currencies = new Set<Currency>(accounts.data.map((a: Account) => a.currency));
 
   return [...currencies].map((c) => ({
     dfsp,
     currency: c,
     ndc: limits.data.find((l: Limit) => l.currency === c)?.limit.value,
-    settlementAccount: activeAccounts.find(
+    settlementAccount: accounts.data.find(
       (a: Account) => a.currency === c && a.ledgerAccountType === 'SETTLEMENT',
     ),
-    positionAccount: activeAccounts.find(
+    positionAccount: accounts.data.find(
       (a: Account) => a.currency === c && a.ledgerAccountType === 'POSITION',
     ),
   }));
@@ -178,7 +210,7 @@ function* updateFinancialPositionsParticipant() {
       const response = yield call(api.fundsIn.create, args);
 
       assert(response.status === 202, 'Unable to update Financial Position Balance');
-
+      yield call(checkAccountFundUpdate, account.value, position.dfsp.name);
       break;
     }
     case FinancialPositionsUpdateAction.WithdrawFunds: {
@@ -209,9 +241,8 @@ function* updateFinancialPositionsParticipant() {
       );
       // @ts-ignore
       const response = yield call(api.fundsOut.create, args);
-
       assert(response.status === 202, 'Unable to update Financial Position Balance');
-
+      yield call(checkAccountFundUpdate, account.value, position.dfsp.name);
       break;
     }
     default: {

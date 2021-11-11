@@ -1,7 +1,7 @@
 import { State } from 'store';
 import buildApi, { buildEndpointBuilder, EndpointConfig } from '@modusbox/redux-utils/lib/api';
 
-const [centralLedgerURL] =
+export const [centralLedgerURL] =
   process.env.NODE_ENV === 'production'
     ? [window.positionsEnv.CENTRAL_LEDGER_ENDPOINT]
     : [process.env.CENTRAL_LEDGER_ENDPOINT || ''];
