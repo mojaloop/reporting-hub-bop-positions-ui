@@ -37,12 +37,11 @@ import {
 // So we poll the account endpoint a bit until there is a change before reloading
 // the UI.
 async function pollAccountFundsUpdate(oldAccountFunds: string, dfspName: string) {
-  return retry(
-    async (bail) => {
+  await retry(
+    async () => {
       const accounts = await axios.get(`${centralLedgerURL}/participants/${dfspName}/accounts`);
       if (accounts.status !== 200) {
-        bail(new Error('Unable to fetch DFSP data'));
-        return;
+        throw new Error('Account poll update failed - Request Failed');
       }
 
       const account = accounts.data.filter(
@@ -53,6 +52,7 @@ async function pollAccountFundsUpdate(oldAccountFunds: string, dfspName: string)
         // eslint-disable-next-line consistent-return
         return true;
       }
+      throw new Error('Account poll update failed - Funds are the same');
     },
     {
       retries: 5,
