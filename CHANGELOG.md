@@ -1,4 +1,11 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.2](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.1...v0.0.2) (2021-12-09)
+
+
+### Features
+
+* add cache busting webpack config ([#3](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/3)) ([b47971d](https://github.com/mojaloop/reporting-hub-bop-positions-ui/commit/b47971de112d9b66702a33a69d146abbbbbe33f3))
+
 ### 0.0.1 (2021-11-17)
 
 
