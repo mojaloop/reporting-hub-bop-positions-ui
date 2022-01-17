@@ -1,4 +1,11 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.3](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.2...v0.0.3) (2022-01-17)
+
+
+### Maintenance
+
+* **deps:** bump follow-redirects from 1.14.3 to 1.14.7 ([#4](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/4)) ([728b587](https://github.com/mojaloop/reporting-hub-bop-positions-ui/commit/728b58717cc05ffda533febb05f618303d677d3e))
+
 ### [0.0.2](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.1...v0.0.2) (2021-12-09)
 
 
