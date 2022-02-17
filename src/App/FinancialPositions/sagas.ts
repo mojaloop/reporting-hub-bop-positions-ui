@@ -195,7 +195,7 @@ function* updateFinancialPositionsParticipant() {
       const args = {
         body: {
           transferId: uuid(),
-          externalReference: 'string', // TODO: something useful
+          externalReference: '',
           action: 'recordFundsIn',
           reason: 'Admin portal funds in request',
           amount: {
@@ -217,7 +217,7 @@ function* updateFinancialPositionsParticipant() {
       const args = {
         body: {
           transferId: uuid(),
-          externalReference: 'string', // TODO: something useful
+          externalReference: '',
           action: 'recordFundsOutPrepareReserve',
           reason: 'Admin portal funds out request',
           amount: {
