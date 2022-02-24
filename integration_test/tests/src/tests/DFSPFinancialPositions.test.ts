@@ -82,7 +82,7 @@ async function fundsInOut({
   if (runAssertion) {
     // Assert the position is changed as we expect
     const changedRow = await FinancialPositionsPage.getDfspRowMap().then((m) =>
-      m.get(t.fixtureCtx.participants[0].name)
+      m.get(participantName)
     );
     await t.wait(1000);
     assert(changedRow, 'Expected to find the participant we created in the list of financial positions');
@@ -154,7 +154,7 @@ test.meta({
 test.meta({
   description: 'Add funds and update NDC to second currency should update the displayed DFSP financial position',
 })(
-  'Financial position updates after add funds',
+  'Financial position of second currency updates after add funds',
   async (t) => {
     await fundsInOut({
       t,
