@@ -1,4 +1,6 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.6](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.5...v0.0.6) (2022-02-24)
+
 ### [0.0.5](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.4...v0.0.5) (2022-02-22)
 
 ### [0.0.4](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.3...v0.0.4) (2022-02-17)
