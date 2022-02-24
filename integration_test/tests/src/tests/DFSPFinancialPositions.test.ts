@@ -82,7 +82,7 @@ async function fundsInOut({
   if (runAssertion) {
     // Assert the position is changed as we expect
     const changedRow = await FinancialPositionsPage.getDfspRowMap().then((m) =>
-      m.get(t.fixtureCtx.participants[0].name)
+      m.get(participantName)
     );
     await t.wait(1000);
     assert(changedRow, 'Expected to find the participant we created in the list of financial positions');
@@ -104,11 +104,19 @@ fixture`DFSPFinancialPositions`
     const hubAccounts: protocol.HubAccount[] = [
       {
         type: "HUB_MULTILATERAL_SETTLEMENT",
-        currency: "MMK",
+        currency: "XXX",
       },
       {
         type: "HUB_RECONCILIATION",
-        currency: "MMK",
+        currency: "XXX",
+      },
+      {
+        type: "HUB_MULTILATERAL_SETTLEMENT",
+        currency: "XTS",
+      },
+      {
+        type: "HUB_RECONCILIATION",
+        currency: "XTS",
       },
     ];
     await cli.createHubAccounts(hubAccounts);
@@ -116,7 +124,8 @@ fixture`DFSPFinancialPositions`
   })
   .beforeEach(async (t) => {
     const accounts: protocol.AccountInitialization[] = [
-      { currency: 'MMK', initial_position: '0', ndc: 1000 },
+      { currency: 'XXX', initial_position: '0', ndc: 1000 },
+      { currency: 'XTS', initial_position: '0', ndc: 1000 },
     ];
     const participants = await t.fixtureCtx.cli.createParticipants(accounts);
 
@@ -137,6 +146,20 @@ test.meta({
       t,
       amount: new PositiveNumber(5555),
       participantName: t.fixtureCtx.participants[0].name,
+      action: FundsInOutAction.FundsIn,
+    });
+  }
+)
+
+test.meta({
+  description: 'Add funds and update NDC to second currency should update the displayed DFSP financial position',
+})(
+  'Financial position of second currency updates after add funds',
+  async (t) => {
+    await fundsInOut({
+      t,
+      amount: new PositiveNumber(4444),
+      participantName: t.fixtureCtx.participants[1].name,
       action: FundsInOutAction.FundsIn,
     });
   }

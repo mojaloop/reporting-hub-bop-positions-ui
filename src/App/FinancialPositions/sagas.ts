@@ -36,7 +36,7 @@ import {
 // Adding and withdrawing funds in the central ledger are not truly synchronous.
 // So we poll the account endpoint a bit until there is a change before reloading
 // the UI.
-async function pollAccountFundsUpdate(oldAccountFunds: string, dfspName: string) {
+async function pollAccountFundsUpdate(oldAccount: Account, dfspName: string) {
   await retry(
     async () => {
       const accounts = await axios.get(`${centralLedgerURL}/participants/${dfspName}/accounts`);
@@ -44,11 +44,11 @@ async function pollAccountFundsUpdate(oldAccountFunds: string, dfspName: string)
         throw new Error('Account poll update failed - Request Failed');
       }
 
-      const account = accounts.data.filter(
-        (acc: { ledgerAccountType: string }) => acc.ledgerAccountType === 'SETTLEMENT',
+      const updatedAccount = accounts.data.filter(
+        (acc: { id: number }) => acc.id === oldAccount.id,
       )[0];
 
-      if (account.value !== oldAccountFunds) {
+      if (updatedAccount.value !== oldAccount.value) {
         // eslint-disable-next-line consistent-return
         return true;
       }
@@ -60,8 +60,8 @@ async function pollAccountFundsUpdate(oldAccountFunds: string, dfspName: string)
   );
 }
 
-function* checkAccountFundUpdate(oldAccountFunds: string, dfspName: string) {
-  yield call(pollAccountFundsUpdate, oldAccountFunds, dfspName);
+function* checkAccountFundUpdate(oldAccount: Account, dfspName: string) {
+  yield call(pollAccountFundsUpdate, oldAccount, dfspName);
 }
 
 function* fetchDFSPPositions(dfsp: DFSP) {
@@ -150,13 +150,7 @@ function* updateFinancialPositionsParticipant() {
   assert(updateAmount !== 0, 'Value 0 is not valid for Amount');
 
   const position: FinancialPosition = yield select(getSelectedFinancialPosition);
-  // @ts-ignore
-  const accounts = yield call(api.accounts.read, { dfspName: position.dfsp.name });
-  assert(accounts.status === 200, 'Unable to fetch DFSP data');
-
-  const account = accounts.data.filter(
-    (acc: { ledgerAccountType: string }) => acc.ledgerAccountType === 'SETTLEMENT',
-  )[0];
+  const account = position.settlementAccount;
 
   // @ts-ignore
   const updateAction = yield select(getSelectedFinancialPositionUpdateAction);
@@ -210,7 +204,7 @@ function* updateFinancialPositionsParticipant() {
       const response = yield call(api.fundsIn.create, args);
 
       assert(response.status === 202, 'Unable to update Financial Position Balance');
-      yield call(checkAccountFundUpdate, account.value, position.dfsp.name);
+      yield call(checkAccountFundUpdate, account, position.dfsp.name);
       break;
     }
     case FinancialPositionsUpdateAction.WithdrawFunds: {
@@ -242,7 +236,7 @@ function* updateFinancialPositionsParticipant() {
       // @ts-ignore
       const response = yield call(api.fundsOut.create, args);
       assert(response.status === 202, 'Unable to update Financial Position Balance');
-      yield call(checkAccountFundUpdate, account.value, position.dfsp.name);
+      yield call(checkAccountFundUpdate, account, position.dfsp.name);
       break;
     }
     default: {

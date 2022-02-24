@@ -12,3 +12,9 @@ NOTE: These endpoints are a stopgap. In the future these environment variables
       for the Positions microfrontend instead of calling Mojaloop services directly.
 
 For more information's on React variables check [here](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables).
+
+## Port forwarding
+If you want connect to the live services deployed in K8S, you can port forward the services using the following command.
+```
+kubectl port-forward -n mojaloop service/moja-centralledger-service 3001:80 &
+```
