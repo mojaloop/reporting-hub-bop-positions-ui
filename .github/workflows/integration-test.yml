@@ -34,9 +34,6 @@ jobs:
 
     - name: Start cluster
       run: |-
-        sudo snap unalias kubectl
-        sudo snap install kubectl --classic # This installs kubectl, it doesn't need to be done using snap though
-        microk8s.kubectl config view --raw > $HOME/.kube/config
         # - --k3s-server-arg args according to
         #   https://k3d.io/faq/faq/#solved-nodes-fail-to-start-or-get-stuck-in-notready-state-with-log-nf_conntrack_max-permission-denied
         # - We deploy our own for increased portability across k8s distributions
@@ -54,7 +51,10 @@ jobs:
           int-test
 
     - name: Deploy
-      run: skaffold run -p integration-test
+      run: |-
+        # Test connection to cluster
+        kubectl get all
+        skaffold run -p integration-test
 
     - name: Wait for kube api server to process and create all resources
       # This is because the wait step that follows this one does this:
