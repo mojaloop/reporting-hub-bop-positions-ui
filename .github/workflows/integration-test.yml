@@ -34,6 +34,9 @@ jobs:
 
     - name: Start cluster
       run: |-
+        # https://github.com/GoogleContainerTools/skaffold/issues/5283
+        microk8s config
+        kubectl get all
         # - --k3s-server-arg args according to
         #   https://k3d.io/faq/faq/#solved-nodes-fail-to-start-or-get-stuck-in-notready-state-with-log-nf_conntrack_max-permission-denied
         # - We deploy our own for increased portability across k8s distributions
