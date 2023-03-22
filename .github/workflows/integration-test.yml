@@ -54,8 +54,6 @@ jobs:
     - name: Deploy
       run: |-
         # Test connection to cluster
-        kubectl config use-context k3d-int-test
-        kubectl cluster-info dump
         skaffold run -p integration-test
 
     - name: Wait for kube api server to process and create all resources
