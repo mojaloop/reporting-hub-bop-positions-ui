@@ -181,7 +181,10 @@ function* updateFinancialPositionsParticipant() {
       };
       // @ts-ignore
       const response = yield call(api.participantLimits.update, args);
-      assert(response.status !== 401, 'Unable to update Net Debit Cap - user not authorized');
+      assert(
+        response.status !== 403,
+        `Unable to update Net Debit Cap - ${response.data.error.message}`,
+      );
       assert(response.status === 200, 'Unable to update Net Debit Cap');
       break;
     }
@@ -202,7 +205,10 @@ function* updateFinancialPositionsParticipant() {
       };
       // @ts-ignore
       const response = yield call(api.fundsIn.create, args);
-
+      assert(
+        response.status !== 403,
+        `Unable to update Financial Position Balance - ${response.data.error.message}`,
+      );
       assert(response.status === 202, 'Unable to update Financial Position Balance');
       yield call(checkAccountFundUpdate, account, position.dfsp.name);
       break;
@@ -235,6 +241,10 @@ function* updateFinancialPositionsParticipant() {
       );
       // @ts-ignore
       const response = yield call(api.fundsOut.create, args);
+      assert(
+        response.status !== 403,
+        `Unable to update Financial Position Balance - ${response.data.error.message}`,
+      );
       assert(response.status === 202, 'Unable to update Financial Position Balance');
       yield call(checkAccountFundUpdate, account, position.dfsp.name);
       break;
