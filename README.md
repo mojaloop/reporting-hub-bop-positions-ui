@@ -1,6 +1,6 @@
 ![Build Status](https://github.com/mojaloop/reporting-hub-bop-positions-ui/actions/workflows/node.js.yml/badge.svg)
 
-# Reporting Hub BizOps DFSP Financial Positions Microfrontend
+# Reporting Hub BizOps DFSP Financial Positions Microfrontends
 
 It's built in React / Redux / Typescript and it includes some other libraries.
 
