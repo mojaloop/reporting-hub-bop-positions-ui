@@ -38,6 +38,7 @@ jobs:
         #   https://k3d.io/faq/faq/#solved-nodes-fail-to-start-or-get-stuck-in-notready-state-with-log-nf_conntrack_max-permission-denied
         # - We deploy our own for increased portability across k8s distributions
         k3d cluster create \
+          --wait 360 \
           --no-lb \
           --no-rollback \
           --k3s-server-arg "--kube-proxy-arg=conntrack-max-per-core=0" \
