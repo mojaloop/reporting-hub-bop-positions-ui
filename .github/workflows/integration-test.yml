@@ -33,27 +33,29 @@ jobs:
       run: nix-env -if integration_test/default.nix
 
     - name: Start cluster
-      run: |-
-        # - --k3s-server-arg args according to
-        #   https://k3d.io/faq/faq/#solved-nodes-fail-to-start-or-get-stuck-in-notready-state-with-log-nf_conntrack_max-permission-denied
-        # - We deploy our own for increased portability across k8s distributions
-        k3d cluster create \
-          --wait \
-          --no-lb \
-          --no-rollback \
-          --k3s-server-arg "--kube-proxy-arg=conntrack-max-per-core=0" \
-          --k3s-agent-arg "--kube-proxy-arg=conntrack-max-per-core=0" \
-          --k3s-server-arg "--disable=traefik" \
-          --k3s-server-arg "--disable=metrics-server" \
-          --k3s-server-arg "--disable-cloud-controller" \
-          --kubeconfig-update-default \
-          --kubeconfig-switch-context \
-          --image=rancher/k3s:v1.17.9-k3s1 \
-          int-test
+      run: minikube start --driver=docker --kubernetes-version=v1.21.5
+
+    # - name: Start cluster
+    #   run: |-
+    #     # - --k3s-server-arg args according to
+    #     #   https://k3d.io/faq/faq/#solved-nodes-fail-to-start-or-get-stuck-in-notready-state-with-log-nf_conntrack_max-permission-denied
+    #     # - We deploy our own for increased portability across k8s distributions
+    #     k3d cluster create \
+    #       --wait \
+    #       --no-lb \
+    #       --no-rollback \
+    #       --k3s-server-arg "--kube-proxy-arg=conntrack-max-per-core=0" \
+    #       --k3s-agent-arg "--kube-proxy-arg=conntrack-max-per-core=0" \
+    #       --k3s-server-arg "--disable=traefik" \
+    #       --k3s-server-arg "--disable=metrics-server" \
+    #       --k3s-server-arg "--disable-cloud-controller" \
+    #       --kubeconfig-update-default \
+    #       --kubeconfig-switch-context \
+    #       --image=rancher/k3s:v1.17.9-k3s1 \
+    #       int-test
 
     - name: Deploy
       run: |-
-        # Test connection to cluster
         skaffold run -p integration-test
 
     - name: Wait for kube api server to process and create all resources
@@ -69,7 +71,7 @@ jobs:
     - name: Wait for deployment readiness
       # Skaffold is supposed to do this, but for whatever reason, does not. At the time of writing,
       # investigating this was not a priority.
-      run: timeout 900 kubectl wait --for=condition=Ready pod --all --timeout=900s
+      run: timeout 1500 kubectl wait --for=condition=Ready pod --all --timeout=1200s
 
     - name: Port-forward the portal frontend ingress
       run: kubectl port-forward -n ingress-nginx --address 0.0.0.0 svc/ingress-nginx-controller 3000:80 &
@@ -114,8 +116,3 @@ jobs:
       if: ${{ always() }}
       run: |-
         kubectl get secrets -o json | jq -r '.items[] | { name: .metadata.name, data: .data | map_values(@base64d) }'
-
-    # - name: Setup tmate session
-    #   if: ${{ failure() }}
-    #   uses: mxschmitt/action-tmate@v3
-    #   timeout-minutes: 10
