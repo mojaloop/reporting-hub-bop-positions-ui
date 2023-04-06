@@ -1,4 +1,11 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.7](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.6...v0.0.7) (2023-04-06)
+
+
+### Bug Fixes
+
+* **mojaloop/#2652:** update sagas to handle rbac error messages ([#35](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/35)) ([49dc485](https://github.com/mojaloop/reporting-hub-bop-positions-ui/commit/49dc4853f67e30d84b57eb9444d5c49a5d986310)), closes [mojaloop/#2652](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/2652) [mojaloop/#2652](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/2652)
+
 ### [0.0.6](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.5...v0.0.6) (2022-02-24)
 
 ### [0.0.5](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.4...v0.0.5) (2022-02-22)
