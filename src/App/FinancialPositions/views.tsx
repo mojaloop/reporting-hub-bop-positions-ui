@@ -6,7 +6,10 @@ import './FinancialPositions.css';
 import FinancialPositionUpdate from './FinancialPositionUpdate';
 import financialPositionsConnector, { FinancialPositionsProps } from './connectors';
 
-function formatNum(num: number | string) {
+function formatNum(num: number | string | undefined): string {
+  if (num === undefined) {
+    return '-';
+  }
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
@@ -57,7 +60,7 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
       searchable: false,
       label: '% NDC Used',
       func: (_: undefined, item: FinancialPosition) => {
-        if (!item.positionAccount.value || !item.ndc) {
+        if (!item || !item.positionAccount || !item.positionAccount.value || !item.ndc) {
           return '-';
         }
         return <Perc perc={Math.floor(100 * (item.positionAccount.value / item.ndc))} />;
@@ -68,32 +71,42 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
       label: '',
       sortable: false,
       searchable: false,
-      func: (_: unknown, item: FinancialPosition) => (
-        <Button
-          pending={item.positionAccount.updateInProgress}
-          id={`btn__update_${item.dfsp.name}`}
-          label="Update"
-          size="s"
-          kind="secondary"
-          onClick={() => onSelectFinancialPosition(item)}
-        />
-      ),
+      func: (_: unknown, item: FinancialPosition) => {
+        if (item.positionAccount) {
+          return (
+            <Button
+              pending={item.positionAccount.updateInProgress}
+              id={`btn__update_${item.dfsp.name}`}
+              label="Update"
+              size="s"
+              kind="secondary"
+              onClick={() => onSelectFinancialPosition(item)}
+            />
+          );
+        }
+        return '-';
+      },
     },
     {
       key: 'toggleActive',
       label: '',
       sortable: false,
       searchable: false,
-      func: (_: unknown, item: FinancialPosition) => (
-        <Button
-          pending={item.positionAccount.updateInProgress}
-          id={`btn__setActive_${item.dfsp.name}`}
-          label={item.positionAccount.isActive ? 'Disable' : 'Enable'}
-          size="s"
-          kind="secondary"
-          onClick={() => onToggleCurrencyActive(item)}
-        />
-      ),
+      func: (_: unknown, item: FinancialPosition) => {
+        if (item.positionAccount) {
+          return (
+            <Button
+              pending={item.positionAccount?.updateInProgress}
+              id={`btn__setActive_${item.dfsp.name}`}
+              label={item.positionAccount.isActive ? 'Disable' : 'Enable'}
+              size="s"
+              kind="secondary"
+              onClick={() => onToggleCurrencyActive(item)}
+            />
+          );
+        }
+        return '-';
+      },
     },
   ];
 
