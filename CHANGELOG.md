@@ -1,4 +1,11 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.8](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.7...v0.0.8) (2024-08-28)
+
+
+### Bug Fixes
+
+* add check for position account on ui ([#37](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/37)) ([f8c625b](https://github.com/mojaloop/reporting-hub-bop-positions-ui/commit/f8c625b0cff3a91d762a1107b3b73650682189fc))
+
 ### [0.0.7](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.6...v0.0.7) (2023-04-06)
 
 
