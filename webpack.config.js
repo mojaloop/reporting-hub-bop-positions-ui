@@ -66,7 +66,7 @@ module.exports = {
       '/central-ledger': {
         // For local testing update `target` to point to your
         // locally hosted or port-forwarded `central-ledger` service
-        target: 'http://localhost:3001',
+        target: 'http://localhost:46029',
         pathRewrite: { '^/central-ledger': '' },
         secure: false,
       },
