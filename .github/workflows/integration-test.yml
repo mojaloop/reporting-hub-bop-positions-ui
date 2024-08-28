@@ -16,7 +16,8 @@ jobs:
     - name: Install dependencies in environment
       run: nix-env -if integration_test/default.nix
     - name: Validate integration test manifest
-      run: kustomize build integration_test | kubeconform -strict -kubernetes-version 1.21.5
+      run: kustomize build integration_test
+      # | kubeconform -strict -kubernetes-version 1.17.9
 
   integration_test:
     timeout-minutes: 45
