@@ -14,7 +14,7 @@ jobs:
       with:
         nix_path: nixpkgs=https://github.com/NixOS/nixpkgs/archive/08ef0f28e3a41424b92ba1d203de64257a9fca6a.tar.gz
     - name: Install dependencies in environment
-      run: nix-env -if --install integration_test/default.nix
+      run: nix-env -if integration_test/default.nix
     - name: Validate integration test manifest
       run: kustomize build integration_test
       # | kubeconform -strict -kubernetes-version 1.17.9
@@ -31,7 +31,7 @@ jobs:
         nix_path: nixpkgs=https://github.com/NixOS/nixpkgs/archive/08ef0f28e3a41424b92ba1d203de64257a9fca6a.tar.gz
 
     - name: Install dependencies
-      run: nix-env -if --install integration_test/default.nix
+      run: nix-env -if integration_test/default.nix
 
     - name: Start cluster
       run: minikube start --driver=docker --kubernetes-version=v1.21.5
