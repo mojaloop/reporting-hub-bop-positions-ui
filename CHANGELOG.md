@@ -1,4 +1,11 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.9](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.8...v0.0.9) (2025-07-31)
+
+
+### Bug Fixes
+
+* support read only root filesystem ([#43](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/43)) ([d74ccac](https://github.com/mojaloop/reporting-hub-bop-positions-ui/commit/d74ccacf4fe2ef1b73f6a914e09369b33d4edcfb))
+
 ### [0.0.8](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.7...v0.0.8) (2024-08-28)
 
 
