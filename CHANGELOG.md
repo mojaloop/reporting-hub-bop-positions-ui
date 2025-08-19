@@ -1,4 +1,11 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.10](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.9...v0.0.10) (2025-08-19)
+
+
+### Bug Fixes
+
+* add ui path that can be checked by RBAC ([#45](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/45)) ([55f8e2f](https://github.com/mojaloop/reporting-hub-bop-positions-ui/commit/55f8e2f79645ab93117b7b08b7a4b7dc7f25dc6e))
+
 ### [0.0.9](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.8...v0.0.9) (2025-07-31)
 
 
