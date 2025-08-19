@@ -1,4 +1,11 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.13](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.12...v0.0.13) (2025-08-19)
+
+
+### Bug Fixes
+
+* ensure proper fallback for missing files in nginx configuration ([#48](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/48)) ([21e9a3e](https://github.com/mojaloop/reporting-hub-bop-positions-ui/commit/21e9a3e43379f28b722af8648471887fe809854d))
+
 ### [0.0.12](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.11...v0.0.12) (2025-08-19)
 
 
