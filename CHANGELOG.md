@@ -1,4 +1,11 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.14](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.13...v0.0.14) (2025-09-11)
+
+
+### Bug Fixes
+
+* update webpack config to support different devtool settings based on mode ([#50](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/50)) ([3b5bd53](https://github.com/mojaloop/reporting-hub-bop-positions-ui/commit/3b5bd53eec36a9747703bf4d077ebc7bdc4c514a))
+
 ### [0.0.13](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.12...v0.0.13) (2025-08-19)
 
 
