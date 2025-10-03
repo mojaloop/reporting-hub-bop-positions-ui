@@ -1,4 +1,11 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.15](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.14...v0.0.15) (2025-10-03)
+
+
+### Maintenance
+
+* **csi-1840:** fix number formating ([#53](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/53)) ([d01af93](https://github.com/mojaloop/reporting-hub-bop-positions-ui/commit/d01af93f108469acdd555ccad576a9c5e2dfa4cc))
+
 ### [0.0.14](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.13...v0.0.14) (2025-09-11)
 
 
