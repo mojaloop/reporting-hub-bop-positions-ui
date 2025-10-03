@@ -10,7 +10,14 @@ function formatNum(num: number | string | undefined): string {
   if (num === undefined) {
     return '-';
   }
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const str = num.toString();
+  const match = str.match(/^([+-]?)(\d+)(?:\.(\d+))?$/);
+  if (!match) {
+    return str;
+  }
+  const [, sign, integer, decimal] = match;
+  const formattedInt = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return decimal !== undefined ? `${sign}${formattedInt}.${decimal}` : `${sign}${formattedInt}`;
 }
 
 function getLedColorByPerc(perc: number): string {
@@ -47,12 +54,18 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
   const columns = [
     { key: 'dfsp.name', label: 'DFSP' },
     { key: 'currency', label: 'Currency' },
-    { key: 'settlementAccount.value', label: 'Balance', func: formatNum },
-    { key: 'positionAccount.value', label: 'Current Position', func: formatNum },
+    { key: 'settlementAccount.value', label: 'Balance', func: formatNum, className: 'align-right' },
+    {
+      key: 'positionAccount.value',
+      label: 'Current Position',
+      func: formatNum,
+      className: 'align-right',
+    },
     {
       key: 'ndc',
       label: 'NDC',
       func: (v: number) => (v === undefined ? 'Disabled' : formatNum(v)),
+      className: 'align-right',
     },
     {
       key: '',
@@ -65,6 +78,7 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
         }
         return <Perc perc={Math.floor(100 * (item.positionAccount.value / item.ndc))} />;
       },
+      className: 'align-right',
     },
     {
       key: 'update',
@@ -86,6 +100,7 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
         }
         return '-';
       },
+      className: 'align-center',
     },
     {
       key: 'toggleActive',
@@ -107,6 +122,7 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
         }
         return '-';
       },
+      className: 'align-center',
     },
   ];
 
