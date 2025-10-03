@@ -54,16 +54,18 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
   const columns = [
     { key: 'dfsp.name', label: 'DFSP' },
     { key: 'currency', label: 'Currency' },
-    { key: 'settlementAccount.value', label: 'Balance', func: formatNum },
+    { key: 'settlementAccount.value', label: 'Balance', func: formatNum, className: 'align-right' },
     {
       key: 'positionAccount.value',
       label: 'Current Position',
       func: formatNum,
+      className: 'align-right',
     },
     {
       key: 'ndc',
       label: 'NDC',
       func: (v: number) => (v === undefined ? 'Disabled' : formatNum(v)),
+      className: 'align-right',
     },
     {
       key: '',
@@ -76,6 +78,7 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
         }
         return <Perc perc={Math.floor(100 * (item.positionAccount.value / item.ndc))} />;
       },
+      className: 'align-right',
     },
     {
       key: 'update',
@@ -97,6 +100,7 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
         }
         return '-';
       },
+      className: 'align-center',
     },
     {
       key: 'toggleActive',
@@ -118,6 +122,7 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
         }
         return '-';
       },
+      className: 'align-center',
     },
   ];
 
