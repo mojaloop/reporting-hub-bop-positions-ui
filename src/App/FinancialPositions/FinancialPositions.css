@@ -10,6 +10,19 @@
   display: block !important;
 }
 
+.align-right.el-datalist__header-cell {
+  justify-content: right;
+}
+
+.align-right > .el-datalist__header-cell__label {
+  justify-content: flex-end;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  flex: 0 0 auto;
+  text-align: right;
+}
+
 .align-center.el-datalist__item-cell {
   text-align: center !important;
   display: block !important;
