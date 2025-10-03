@@ -1,16 +1,31 @@
 import React, { FC } from 'react';
 import { Heading, Led, MessageBox, Spinner, DataList, Button } from 'outdated-components';
 import withMount from 'hocs';
+import BigNumber from 'bignumber.js';
 import { FinancialPosition } from './types';
 import './FinancialPositions.css';
 import FinancialPositionUpdate from './FinancialPositionUpdate';
 import financialPositionsConnector, { FinancialPositionsProps } from './connectors';
 
-function formatNum(num: number | string | undefined): string {
+function formatNum(num: number | string | undefined, scale: number = 4): string {
   if (num === undefined) {
     return '-';
   }
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  try {
+    const v = new BigNumber(num).toFormat(scale, BigNumber.ROUND_UP, {
+      prefix: '',
+      decimalSeparator: '.',
+      groupSeparator: ',',
+      groupSize: 3,
+      secondaryGroupSize: 0,
+      fractionGroupSeparator: ' ',
+      fractionGroupSize: 0,
+      suffix: '',
+    });
+    return v;
+  } catch {
+    return '-';
+  }
 }
 
 function getLedColorByPerc(perc: number): string {
