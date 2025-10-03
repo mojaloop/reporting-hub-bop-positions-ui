@@ -1,31 +1,23 @@
 import React, { FC } from 'react';
 import { Heading, Led, MessageBox, Spinner, DataList, Button } from 'outdated-components';
 import withMount from 'hocs';
-import BigNumber from 'bignumber.js';
 import { FinancialPosition } from './types';
 import './FinancialPositions.css';
 import FinancialPositionUpdate from './FinancialPositionUpdate';
 import financialPositionsConnector, { FinancialPositionsProps } from './connectors';
 
-function formatNum(num: number | string | undefined, scale: number = 4): string {
+function formatNum(num: number | string | undefined): string {
   if (num === undefined) {
     return '-';
   }
-  try {
-    const v = new BigNumber(num).toFormat(scale, BigNumber.ROUND_UP, {
-      prefix: '',
-      decimalSeparator: '.',
-      groupSeparator: ',',
-      groupSize: 3,
-      secondaryGroupSize: 0,
-      fractionGroupSeparator: ' ',
-      fractionGroupSize: 0,
-      suffix: '',
-    });
-    return v;
-  } catch {
-    return '-';
+  const str = num.toString();
+  const match = str.match(/^([+-]?)(\d+)(?:\.(\d+))?$/);
+  if (!match) {
+    return str;
   }
+  const [, sign, integer, decimal] = match;
+  const formattedInt = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return decimal !== undefined ? `${sign}${formattedInt}.${decimal}` : `${sign}${formattedInt}`;
 }
 
 function getLedColorByPerc(perc: number): string {
@@ -63,7 +55,11 @@ const FinancialPositions: FC<FinancialPositionsProps> = ({
     { key: 'dfsp.name', label: 'DFSP' },
     { key: 'currency', label: 'Currency' },
     { key: 'settlementAccount.value', label: 'Balance', func: formatNum },
-    { key: 'positionAccount.value', label: 'Current Position', func: formatNum },
+    {
+      key: 'positionAccount.value',
+      label: 'Current Position',
+      func: formatNum,
+    },
     {
       key: 'ndc',
       label: 'NDC',
