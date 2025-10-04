@@ -7,7 +7,9 @@
 
 .align-right.el-datalist__item-cell {
   text-align: right !important;
-  display: block !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end;
 }
 
 .align-right.el-datalist__header-cell {
@@ -25,5 +27,7 @@
 
 .align-center.el-datalist__item-cell {
   text-align: center !important;
-  display: block !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
