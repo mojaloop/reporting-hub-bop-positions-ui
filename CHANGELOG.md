@@ -1,4 +1,11 @@
 # Changelog: [mojaloop/reporting-hub-bop-positions-ui](https://github.com/mojaloop/reporting-hub-bop-positions-ui)
+### [0.0.16](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.15...v0.0.16) (2025-10-04)
+
+
+### Maintenance
+
+* align numbers vertically centered ([#55](https://github.com/mojaloop/reporting-hub-bop-positions-ui/issues/55)) ([e65a6ad](https://github.com/mojaloop/reporting-hub-bop-positions-ui/commit/e65a6ad6f78ef1341aa579443eccb529b1fb26f8))
+
 ### [0.0.15](https://github.com/mojaloop/reporting-hub-bop-positions-ui/compare/v0.0.14...v0.0.15) (2025-10-03)
 
 
